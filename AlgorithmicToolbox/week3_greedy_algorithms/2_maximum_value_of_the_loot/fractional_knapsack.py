@@ -4,7 +4,25 @@ import sys
 def get_optimal_value(capacity, weights, values):
     value = 0.
     # write your code here
-
+    ordered_values_weights = []
+    j = 0
+    for i in weights:
+        ordered_values_weights.append({'weight': weights[j],'value': values[j]})
+        j += 1
+    ordered_values_weights.sort(key=lambda x: x['value']/x['weight'], reverse=True)
+        
+    for x in ordered_values_weights:
+        if not (capacity > 0):
+            return value		
+		
+        if x['weight'] <= capacity:
+            value += x['value']
+            capacity -= x['weight']
+        else:
+            fraction = float(capacity)/float(x['weight'])
+            value += fraction * x['value']
+            capacity -= fraction * x['weight']
+	
     return value
 
 
