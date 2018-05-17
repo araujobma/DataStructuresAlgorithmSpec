@@ -5,20 +5,24 @@ from collections import namedtuple
 Segment = namedtuple('Segment', 'start end')
 
 def optimal_points(segments):
-    print(segments)
+    #print(segments)
     points = []
     #write your code here
+    segments.sort(key=lambda x: x.start)
     for i in range(0,len(segments)):
         if segments[i] == -1:
             continue
+        overlapping_coord = [segments[i].start,segments[i].end]
         for j in range(i+1,len(segments)):
             if segments[j] == -1:
                 continue
-            if segments[i].end >= segments[j].start:
-                segments[i] = -1
+            if segments[j].start <= overlapping_coord[1]:
+                overlapping_coord[0] = segments[j].start
+                overlapping_coord[1] = min(overlapping_coord[1], segments[j].end)
+                segments[j] = -1
             else:
                 break
-        points.append(segments[i].end)
+        points.append(overlapping_coord[1])
 		
     return points
 
